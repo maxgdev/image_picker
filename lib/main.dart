@@ -1,4 +1,6 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 void main() {
   runApp(MyApp());
@@ -29,42 +31,52 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  File _imageFile;
+  ImagePicker imgPicker;
 
-  void _incrementCounter() {
+  @override
+  void initState() {
+    super.initState();
+    imgPicker = ImagePicker();
+  }
+
+  Future getImage() async {
+    print('Image Picker button pressed');
+    final pickedFile = await imgPicker.getImage(source: ImageSource.gallery);
+
     setState(() {
-      _counter++;
+      if (pickedFile != null) {
+        _imageFile = File(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
-
         title: Text(widget.title),
       ),
       body: Center(
-
         child: Column(
- 
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            _imageFile != null
+                ? Image.file(_imageFile)
+                : Icon(Icons.image, size: 150),
             Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
+              'Click the button to Select an Image',
             ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
+        onPressed: getImage,
+        // onLongPress: _imageFromCamera,
+        tooltip: 'Image Picker',
+        child: Icon(Icons.image),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
