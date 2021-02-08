@@ -11,6 +11,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      // Hide the Debug banner
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Image Picker Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
