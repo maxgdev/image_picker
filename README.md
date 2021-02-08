@@ -1,6 +1,8 @@
 # image_picker
 
 Flutter Image Picker Demo project
+- Select image from gallery
+- select image from camera
 
 ## Credits
     flutter.dev

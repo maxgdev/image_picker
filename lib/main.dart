@@ -40,9 +40,22 @@ class _MyHomePageState extends State<MyHomePage> {
     imgPicker = ImagePicker();
   }
 
-  Future getImage() async {
+  Future getImageFromGallery() async {
     print('Image Picker button pressed');
     final pickedFile = await imgPicker.getImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedFile != null) {
+        _imageFile = File(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
+
+  Future getImageFromCamera() async {
+    print('Image Picker button pressed');
+    final pickedFile = await imgPicker.getImage(source: ImageSource.camera);
 
     setState(() {
       if (pickedFile != null) {
@@ -73,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: getImage,
+        onPressed: getImageFromCamera,
         // onLongPress: _imageFromCamera,
         tooltip: 'Image Picker',
         child: Icon(Icons.image),
